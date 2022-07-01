@@ -1,6 +1,7 @@
 rightWristX = 0;
 rightWristY = 0;
 scoreRightWrist = 0;
+game_status = "";
 
 /*created by prashant shukla */
 
@@ -31,6 +32,7 @@ function setup(){
 
   video = createCapture(VIDEO);
   video.size(700, 600);
+  video.hide();
 
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on("pose", gotPoses);
@@ -48,23 +50,33 @@ function gotPoses(results){
   }
 }
 
-function draw(){
+function startGame(){
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game Is Loaded";
+}
 
-  if(scoreRightWrist > 0.2){
+function draw()
+{
+
+  if(game_status == "start")
+  {
+    background(0); 
+    image(video, 0, 0, 700, 600);
+
+    fill("black");
+    stroke("black");
+    rect(680,0,20,700);
+
+    fill("black");
+    stroke("black");
+    rect(0,0,20,700);
+
+    if(scoreRightWrist > 0.2)
+    {
     fill("#FF0000");
     stroke("#FF0000")
-    circle(rightWristX, rightWristY, 100)
-  }
-
- background(0); 
-
- fill("black");
- stroke("black");
- rect(680,0,20,700);
-
- fill("black");
- stroke("black");
- rect(0,0,20,700);
+    circle(rightWristX, rightWristY, 30)
+   }
  
    //funtion paddleInCanvas call 
    paddleInCanvas();
@@ -93,6 +105,7 @@ function draw(){
    
    //function move call which in very important
     move();
+  }
 }
 
 
